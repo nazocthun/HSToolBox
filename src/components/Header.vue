@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { useToolBoxStore } from '~/store'
 
 const store = useToolBoxStore()
-const { selectedMode, selectedMenu } = storeToRefs(store)
+const { selectedMode, showMenu, selectedMenu } = storeToRefs(store)
 
 function handleUpdateValue(key: string) {
   console.log(key)
@@ -71,16 +71,7 @@ const menuOptions: MenuOption[] = [
     key: 'mercenaries',
   },
 ]
-const width = ref(document.body.clientWidth)
-const showMenu = computed(() => width.value < 1024)
-onMounted(() => {
-  window.onresize = () => {
-    width.value = document.body.clientWidth
-  }
-})
-onUnmounted(() => {
-  window.onresize = null
-})
+
 </script>
 
 <template>
