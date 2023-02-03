@@ -7,6 +7,6 @@ import { useMessage } from 'naive-ui'
 
 <template>
   <div>
-    Index
+    Caculator
   </div>
 </template>

@@ -6,7 +6,8 @@ import { useMessage } from 'naive-ui'
 </script>
 
 <template>
-  <div>
-    Index
+  <div h-full>
+    BattleGrounds HeroPool
+
   </div>
 </template>
