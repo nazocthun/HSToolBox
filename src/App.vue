@@ -8,9 +8,14 @@ const { clientWidth, showMenu } = storeToRefs(store)
 
 const osThemeRef = useOsTheme()
 const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
-const collapsed = ref(false)
 
-watchEffect(() => collapsed.value = showMenu.value)
+// Auto collapse Menu
+const collapsed = ref(false)
+const showMenuBar = ref<boolean | 'bar' | 'arrow-circle' | undefined>('bar')
+watchEffect(() => {
+  collapsed.value = showMenu.value
+  showMenuBar.value = showMenu.value ? undefined : 'bar'
+})
 onMounted(() => {
   clientWidth.value = document.body.clientWidth
   window.onresize = () => {
@@ -36,7 +41,7 @@ onUnmounted(() => {
             collapse-mode="width"
             :collapsed-width="0"
             :width="240"
-            show-trigger="bar"
+            :show-trigger="showMenuBar"
             @collapse="collapsed = true"
             @expand="collapsed = false"
           >
