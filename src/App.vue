@@ -16,8 +16,10 @@ watchEffect(() => {
   collapsed.value = showMenu.value
   showMenuBar.value = showMenu.value ? undefined : 'bar'
 })
-onMounted(() => {
+onBeforeMount(() => {
   clientWidth.value = document.body.clientWidth
+})
+onMounted(() => {
   window.onresize = () => {
     clientWidth.value = document.body.clientWidth
   }
