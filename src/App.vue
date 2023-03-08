@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { darkTheme, useOsTheme } from 'naive-ui'
+import { darkTheme, lightTheme, useOsTheme } from 'naive-ui'
 import { useToolBoxStore } from '~/store'
 
 const store = useToolBoxStore()
-const { clientWidth, showMenu } = storeToRefs(store)
+const { handleRoutePath } = useToolBoxStore()
+const { theme, clientWidth, showMenu } = storeToRefs(store)
 
 const osThemeRef = useOsTheme()
-const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
+const initTheme = () => {
+  if (!localStorage.getItem('theme')) {
+    theme.value = osThemeRef.value === 'dark' ? darkTheme : lightTheme
+    localStorage.setItem('theme', theme.value.name)
+  }
+}
+const loadTheme = () => {
+  theme.value = localStorage.getItem('theme') === 'dark' ? darkTheme : lightTheme
+}
+
+// 根据路由高亮Header
+const route = useRoute()
+watchEffect(() => {
+  handleRoutePath(route.fullPath)
+})
 
 // Auto collapse Menu
 const collapsed = ref(false)
@@ -20,6 +35,8 @@ onBeforeMount(() => {
   clientWidth.value = document.body.clientWidth
 })
 onMounted(() => {
+  initTheme()
+  loadTheme()
   window.onresize = () => {
     clientWidth.value = document.body.clientWidth
   }
