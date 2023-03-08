@@ -2,25 +2,22 @@
 import { RouterLink } from 'vue-router'
 import type { MenuOption } from 'naive-ui'
 import { storeToRefs } from 'pinia'
+import { darkTheme, lightTheme } from 'naive-ui'
 import { useToolBoxStore } from '~/store'
 
 const store = useToolBoxStore()
-const { selectedMode, showMenu, selectedMenu } = storeToRefs(store)
+const { theme, selectedMode, showMenu } = storeToRefs(store)
+const { setSelectedHeader } = useToolBoxStore()
 
 function handleUpdateValue(key: string) {
-  console.log(key)
-  selectedMode.value = key
-  if (key.includes('index'))
-    selectedMenu.value = 'index'
-  else if (key.includes('calculator'))
-    selectedMenu.value = 'calculator'
-  else if (key.includes('battlegrounds'))
-    selectedMenu.value = 'battlegrounds-minion-pool'
-  else if (key.includes('mercenaries'))
-    selectedMenu.value = 'mercenaries-hero-pool'
+  setSelectedHeader(key)
 }
 
-const activeMenu = ref<string | null>('index')
+const changeTheme = () => {
+  theme.value = theme.value.name === 'dark' ? lightTheme : darkTheme
+  localStorage.setItem('theme', theme.value.name)
+}
+
 const menuOptions: MenuOption[] = [
   {
     label: () => h(
@@ -51,7 +48,7 @@ const menuOptions: MenuOption[] = [
       RouterLink,
       {
         to: {
-          name: 'BattleGrounds-MinionPool',
+          name: 'BattleGrounds-Minions',
         },
       },
       { default: () => '酒馆战棋' },
@@ -63,7 +60,7 @@ const menuOptions: MenuOption[] = [
       RouterLink,
       {
         to: {
-          name: 'Mercenaries-HeroPool',
+          name: 'Mercenaries-Heroes',
         },
       },
       { default: () => '佣兵模式' },
@@ -71,7 +68,6 @@ const menuOptions: MenuOption[] = [
     key: 'mercenaries',
   },
 ]
-
 </script>
 
 <template>
@@ -83,16 +79,27 @@ const menuOptions: MenuOption[] = [
       这应该放个图片
     </div>
     <div v-if="!showMenu" flex-1>
-      <n-menu v-model:value="activeMenu" mode="horizontal" :options="menuOptions" @update:value="handleUpdateValue" />
+      <n-menu :value="selectedMode" mode="horizontal" :options="menuOptions" @update:value="handleUpdateValue" />
     </div>
     <div v-if="!showMenu">
       末尾的
     </div>
-    <div v-if="showMenu" flex-1>
+    <!-- <div v-if="showMenu" flex-1>
       显示菜单 中间的空白
-    </div>
+    </div> -->
     <div v-if="showMenu">
       菜单
     </div>
+    <n-button style="margin: 0" @click="changeTheme">
+      主题
+    </n-button>
+    <n-popover w-64 trigger="click" placement="bottom-end">
+      <template #trigger>
+        <n-button style="margin: 0">
+          悬浮
+        </n-button>
+      </template>
+      <MenuBar />
+    </n-popover>
   </div>
 </template>
