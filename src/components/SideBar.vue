@@ -5,19 +5,25 @@ import type { ComputedRef } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useToolBoxStore } from '~/store'
 
+const route = useRoute()
 const store = useToolBoxStore()
 const { selectedMode, selectedMenu } = storeToRefs(store)
+const { setSelectedSideBar } = useToolBoxStore()
 function handleUpdateValue(key: string) {
-  selectedMenu.value = key
-  if (key.includes('index'))
-    selectedMode.value = 'index'
-  else if (key.includes('calculator'))
-    selectedMode.value = 'calculator'
-  else if (key.includes('battlegrounds'))
-    selectedMode.value = 'battlegrounds'
-  else if (key.includes('mercenaries'))
-    selectedMode.value = 'mercenaries'
+  setSelectedSideBar(key)
 }
+
+// watchEffect(() => {
+//   if (route.path.charAt(route.path.length - 1) !== '/') {
+//     const keys = route.path.slice(1).replace('/', '-')
+//     handleUpdateValue(keys)
+//   }
+// })
+
+// onMounted(() => {
+//   const path = computed(() => route.path)
+//   handleUpdateValue(path.value)
+// })
 
 const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
   {
@@ -82,12 +88,12 @@ const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
         RouterLink,
         {
           to: {
-            name: 'BattleGrounds-MinionPool',
+            name: 'BattleGrounds-Minions',
           },
         },
         { default: () => '随从池' },
       ),
-    key: 'battlegrounds-minion-pool',
+    key: 'battlegrounds-minions',
     show: selectedMode.value === 'battlegrounds',
   },
   {
@@ -96,12 +102,12 @@ const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
         RouterLink,
         {
           to: {
-            name: 'BattleGrounds-HeroPool',
+            name: 'BattleGrounds-Heroes',
           },
         },
         { default: () => '英雄池' },
       ),
-    key: 'battlegrounds-hero-pool',
+    key: 'battlegrounds-heroes',
     show: selectedMode.value === 'battlegrounds',
   },
   {
@@ -110,12 +116,12 @@ const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
         RouterLink,
         {
           to: {
-            name: 'Mercenaries-HeroPool',
+            name: 'Mercenaries-Heroes',
           },
         },
         { default: () => '佣兵图鉴' },
       ),
-    key: 'mercenaries-hero-pool',
+    key: 'mercenaries-heroes',
     show: selectedMode.value === 'mercenaries',
   },
   {
@@ -124,12 +130,12 @@ const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
         RouterLink,
         {
           to: {
-            name: 'Mercenaries-DungeonPool',
+            name: 'Mercenaries-Dungeons',
           },
         },
         { default: () => '副本图鉴' },
       ),
-    key: 'mercenaries-dungeon-pool',
+    key: 'mercenaries-dungeons',
     show: selectedMode.value === 'mercenaries',
   },
   {
@@ -138,12 +144,12 @@ const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
         RouterLink,
         {
           to: {
-            name: 'Mercenaries-QuestPool',
+            name: 'Mercenaries-Quests',
           },
         },
         { default: () => '英雄任务' },
       ),
-    key: 'mercenaries-quest-pool',
+    key: 'mercenaries-quests',
     show: selectedMode.value === 'mercenaries',
   },
 ])
