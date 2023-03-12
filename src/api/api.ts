@@ -2,11 +2,11 @@ import api from './instance'
 
 // 获取所有卡牌
 export const getAllCards = () => {
-  return api.get('/cards/all')
+  return api.get('/card/all')
 }
 // 获取特定ID的卡牌
-export const getCardById = (id: string) => {
-  return api.get(`/cards/${id}`)
+export const getCardById = (params: { id: string }) => {
+  return api.get('/card', { params })
 }
 
 export const getCardsByFilter = (params: {
@@ -14,11 +14,14 @@ export const getCardsByFilter = (params: {
   race?: string
   boundrace?: string
   tavernlevel?: string
-  version?: string
 }) => {
-  return api.get('/cards/filter', { params })
+  return api.get('/card/filter', { params })
 }
 
-export const getImageByIdAndVersion = (params: { id: string; version?: string }) => {
-  return api.get('cards/image', { params })
+export const getImageByIdAndVersion = (params: { id: string }) => {
+  return api.get('image/card', { params })
+}
+
+export const getHeroes = () => {
+  return api.get('/heroes')
 }
