@@ -1,19 +1,45 @@
 <script setup lang="ts">
 import { getImageByIdAndVersion } from '~/api/api'
 
-const props = defineProps<{ cardId: string; version?: string }>()
+const props = defineProps({
+  cardId: {
+    type: String,
+    default: () => '',
+  },
+  animation: {
+    type: Boolean,
+    default: () => true,
+  },
+})
 
 const imageUrl = ref('')
 const init = async () => {
   const params = {
     id: props.cardId,
-    version: props.version,
   }
-  await getImageByIdAndVersion(params).then((res) => {
-    // console.log(res.data)
-    imageUrl.value = res.data
-  })
+  if (props.cardId !== '') {
+    await getImageByIdAndVersion(params).then((res) => {
+      imageUrl.value = res.data
+    })
+  }
 }
+
+// 动态卡牌
+const card = ref()
+const { elementX, elementY, elementHeight, elementWidth, isOutside } = useMouseInElement(card)
+
+watchEffect(() => {
+  if (!isOutside.value && props.animation) {
+    const rotateX = (elementHeight.value / 2 - elementY.value) / 7
+    const rotateY = -(elementWidth.value / 2 - elementX.value) / 7
+    card.value.style.cssText = `transform: perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg);`
+  }
+})
+watch(() => isOutside.value, () => {
+  if (isOutside.value && props.animation)
+    card.value.style.cssText = 'transition: all 1000ms; transform: perspective(1000px) rotateX0deg) rotateY(0deg);'
+})
+
 watch(() => props.cardId, init)
 onMounted(() => {
   init()
@@ -21,17 +47,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <n-image
-    cursor-pointer
-    transition-all-350
-    hover:scale-108
-    hover:transition-all-350
-    :src="imageUrl"
-    preview-disabled
-  >
-    <template #placeholder>
-      <div
-        style="
+  <div ref="card">
+    <n-image
+      :class="{ 'hover:scale-110 hover:transition-all-350 transition-all-1000 cursor-pointer': props.animation }"
+      :src="imageUrl"
+      preview-disabled
+    >
+      <template #placeholder>
+        <div
+          style="
           width: 100px;
           height: 100px;
           display: flex;
@@ -39,11 +63,12 @@ onMounted(() => {
           justify-content: center;
           background-color: #0001;
         "
-      >
-        Loading
-      </div>
-    </template>
-  </n-image>
+        >
+          Loading
+        </div>
+      </template>
+    </n-image>
+  </div>
 </template>
 
 <style>
