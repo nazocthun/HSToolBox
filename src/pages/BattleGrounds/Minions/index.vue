@@ -171,6 +171,7 @@ const versionOptions = [
 const handleRaceUpdateValue = (value: string) => {
   race.value = value
 }
+
 const handleTavernLevelUpdateValue = (value: string) => {
   tavernLevel.value = value
 }
@@ -209,10 +210,10 @@ watchEffect(async () => {
 })
 
 onMounted(async () => {
-  const params = {
-    buyable: 1,
-  }
-  await fecthNewCardData(params)
+  // const params = {
+  //   buyable: 1,
+  // }
+  // await fecthNewCardData(params)
 })
 </script>
 
@@ -270,7 +271,6 @@ onMounted(async () => {
             <!-- {{ card.card_name }},{{ index }} -->
             <Card
               :card-id="card.card_id"
-              :version="card.version"
               @click="go(card.card_id)"
             />
           </div>
