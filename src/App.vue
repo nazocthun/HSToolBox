@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { darkTheme, lightTheme, useOsTheme } from 'naive-ui'
+import type { GlobalThemeOverrides, LayoutInst } from 'naive-ui'
+import { NConfigProvider, darkTheme, lightTheme, useOsTheme } from 'naive-ui'
 import { useToolBoxStore } from '~/store'
 
 const store = useToolBoxStore()
 const { handleRoutePath } = useToolBoxStore()
-const { theme, clientWidth, showMenu } = storeToRefs(store)
+const { clientWidth, heroPageScrollTop, scrollTop, showMenu, theme } = storeToRefs(store)
 
 const osThemeRef = useOsTheme()
 const initTheme = () => {
@@ -57,7 +58,20 @@ watchEffect(() => {
   handleRoutePath(route.fullPath)
 })
 
-// Auto collapse Menu
+// give scrollbar ref
+const contentRef = ref<LayoutInst | null>(null)
+const scroll = (e: Event) => {
+  if (route.fullPath.match('/battlegrounds/heroes/*')) {
+    scrollTop.value = (e.currentTarget as HTMLElement).scrollTop
+  }
+  else {
+    scrollTop.value = 0
+    heroPageScrollTop.value = 0
+  }
+}
+provide('getContentRef', contentRef)
+
+// auto collapse Menu
 const collapsed = ref(false)
 const showMenuBar = ref<boolean | 'bar' | 'arrow-circle' | undefined>('bar')
 watchEffect(() => {
