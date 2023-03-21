@@ -80,30 +80,35 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <n-config-provider :theme="theme">
-    <n-space vertical size="large">
-      <n-layout>
-        <n-layout-header h-16 px-8 border-b-1>
-          <Header />
-        </n-layout-header>
-        <n-layout has-sider>
-          <n-layout-sider
-            bordered
-            :collapsed="collapsed"
-            collapse-mode="width"
-            :collapsed-width="0"
-            :width="240"
-            :show-trigger="showMenuBar"
-            @collapse="collapsed = true"
-            @expand="collapsed = false"
-          >
-            <SideBar />
-          </n-layout-sider>
-          <n-layout-content class="h-[calc(100vh-64px)] p-5">
-            <RouterView />
-          </n-layout-content>
-        </n-layout>
+  <NConfigProvider :theme="theme" :theme-overrides="theme.name === 'light' ? lightThemeOverrides : darkThemeOverrides">
+    <n-layout position="absolute">
+      <n-layout-header h-16 px-8 bordered>
+        <Header />
+      </n-layout-header>
+      <n-layout has-sider position="absolute" style="top: 64px; bottom: 0px;">
+        <n-layout-sider
+          bordered
+          :collapsed="collapsed"
+          collapse-mode="width"
+          :collapsed-width="0"
+          :width="180"
+          :show-trigger="showMenuBar"
+          @collapse="collapsed = true"
+          @expand="collapsed = false"
+        >
+          <SideBar />
+        </n-layout-sider>
+        <n-layout-content ref="contentRef" content-style="padding: 24px;" :native-scrollbar="false" :on-scroll="scroll">
+          <RouterView v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" v-if="$route.meta.keepAlive" :key="route.name" />
+            </keep-alive>
+            <n-message-provider>
+              <component :is="Component" v-if="!$route.meta.keepAlive" :key="route.name" />
+            </n-message-provider>
+          </RouterView>
+        </n-layout-content>
       </n-layout>
-    </n-space>
-  </n-config-provider>
+    </n-layout>
+  </NConfigProvider>
 </template>
