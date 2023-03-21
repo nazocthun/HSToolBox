@@ -18,7 +18,40 @@ const loadTheme = () => {
   theme.value = localStorage.getItem('theme') === 'dark' ? darkTheme : lightTheme
 }
 
-// 根据路由高亮Header
+const lightThemeOverrides: GlobalThemeOverrides = {
+  common: {
+    baseColor: '#E4E4E4',
+    bodyColor: '#E4E4E4',
+    modalColor: '#E4E4E4',
+    cardColor: '#E4E4E4',
+    borderColor: '#DCDCDC',
+  },
+  Layout: {
+    headerBorderColor: '#DCDCDC',
+    siderBorderColor: '#DCDCDC',
+  },
+  Divider: {
+    color: '#DCDCDC',
+  },
+  Card: {
+    borderColor: '#DCDCDC',
+  },
+  Popover: {
+    borderRadius: '20px',
+    color: '#fef0cd',
+    boxShadow: 'none',
+  },
+}
+
+const darkThemeOverrides: GlobalThemeOverrides = {
+  Popover: {
+    borderRadius: '20px',
+    color: '#453513',
+    boxShadow: 'none',
+  },
+}
+
+// highlight menu options base on route name
 const route = useRoute()
 watchEffect(() => {
   handleRoutePath(route.fullPath)
