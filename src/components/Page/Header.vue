@@ -27,7 +27,7 @@ const menuOptions: MenuOption[] = [
           name: 'index',
         },
       },
-      { default: () => '首页' },
+      { default: () => '炉石工具箱' },
     ),
     key: 'index',
   },
@@ -81,22 +81,17 @@ const menuOptions: MenuOption[] = [
     <div v-if="!showMenu" flex-1>
       <n-menu :value="selectedMode" mode="horizontal" :options="menuOptions" @update:value="handleUpdateValue" />
     </div>
-    <div v-if="!showMenu">
+    <!-- <div v-if="!showMenu">
       末尾的
-    </div>
-    <!-- <div v-if="showMenu" flex-1>
-      显示菜单 中间的空白
     </div> -->
-    <div v-if="showMenu">
-      菜单
-    </div>
+    <div v-if="showMenu" flex-1 />
     <n-button style="margin: 0" @click="changeTheme">
       主题
     </n-button>
-    <n-popover w-64 trigger="click" placement="bottom-end">
+    <n-popover v-if="showMenu" w-64 trigger="click" placement="bottom-end">
       <template #trigger>
         <n-button style="margin: 0">
-          悬浮
+          菜单
         </n-button>
       </template>
       <MenuBar />

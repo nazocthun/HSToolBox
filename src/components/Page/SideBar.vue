@@ -5,25 +5,12 @@ import type { ComputedRef } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useToolBoxStore } from '~/store'
 
-const route = useRoute()
 const store = useToolBoxStore()
 const { selectedMode, selectedMenu } = storeToRefs(store)
 const { setSelectedSideBar } = useToolBoxStore()
 function handleUpdateValue(key: string) {
   setSelectedSideBar(key)
 }
-
-// watchEffect(() => {
-//   if (route.path.charAt(route.path.length - 1) !== '/') {
-//     const keys = route.path.slice(1).replace('/', '-')
-//     handleUpdateValue(keys)
-//   }
-// })
-
-// onMounted(() => {
-//   const path = computed(() => route.path)
-//   handleUpdateValue(path.value)
-// })
 
 const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
   {
@@ -108,6 +95,48 @@ const menuOptions: ComputedRef<MenuOption[]> = computed(() => [
         { default: () => '英雄池' },
       ),
     key: 'battlegrounds-heroes',
+    show: selectedMode.value === 'battlegrounds',
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'BattleGrounds-Prizes',
+          },
+        },
+        { default: () => '暗月奖品机制' },
+      ),
+    key: 'battlegrounds-prizes',
+    show: selectedMode.value === 'battlegrounds',
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'BattleGrounds-Quests',
+          },
+        },
+        { default: () => '任务机制' },
+      ),
+    key: 'battlegrounds-quests',
+    show: selectedMode.value === 'battlegrounds',
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: 'BattleGrounds-Buddies',
+          },
+        },
+        { default: () => '伙伴机制' },
+      ),
+    key: 'battlegrounds-buddies',
     show: selectedMode.value === 'battlegrounds',
   },
   {

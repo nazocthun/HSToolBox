@@ -19,36 +19,24 @@ function handleUpdateValue(key: string) {
     selectedMode.value = 'mercenaries'
 }
 
-const menuOptions1: MenuOption[] = [
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: 'index',
-          },
-        },
-        { default: () => '首页' },
-      ),
-    key: 'index',
-  },
-]
-
 const menuOptions: MenuOption[] = [
   {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: 'index',
-          },
-        },
-        { default: () => '首页' },
-      ),
-    key: 'index',
+    label: '炉石工具箱',
+    key: 'hs-toolbox',
     children: [
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'index',
+              },
+            },
+            { default: () => '首页' },
+          ),
+        key: 'index',
+      },
       {
         label: () =>
           h(
@@ -120,19 +108,49 @@ const menuOptions: MenuOption[] = [
           ),
         key: 'battlegrounds-heroes',
       },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'BattleGrounds-Prizes',
+              },
+            },
+            { default: () => '暗月奖品机制' },
+          ),
+        key: 'battlegrounds-prizes',
+      },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'BattleGrounds-Quests',
+              },
+            },
+            { default: () => '任务机制' },
+          ),
+        key: 'battlegrounds-quests',
+      },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'BattleGrounds-Buddies',
+              },
+            },
+            { default: () => '伙伴机制' },
+          ),
+        key: 'battlegrounds-buddies',
+      },
     ],
   },
   {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: 'Mercenaries-Heroes',
-          },
-        },
-        { default: () => '佣兵模式' },
-      ),
+    label: '佣兵模式',
     key: 'mercenaries-content',
     children: [
       {
