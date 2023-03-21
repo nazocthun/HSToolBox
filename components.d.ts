@@ -7,13 +7,18 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BattleGroundsSearch: typeof import('./src/components/BattleGroundsSearch.vue')['default']
     Card: typeof import('./src/components/Card.vue')['default']
-    Header: typeof import('./src/components/Header.vue')['default']
-    MenuBar: typeof import('./src/components/MenuBar.vue')['default']
+    CardDetail: typeof import('./src/components/CardDetail.vue')['default']
+    Header: typeof import('./src/components/Page/Header.vue')['default']
+    Hero: typeof import('./src/components/Hero.vue')['default']
+    HeroPortrait: typeof import('./src/components/Card.vue')['default']
+    HeroSkill: typeof import('./src/components/HeroSkill.vue')['default']
+    LabelDivider: typeof import('./src/components/LabelDivider.vue')['default']
+    MenuBar: typeof import('./src/components/Page/MenuBar.vue')['default']
     NAffix: typeof import('naive-ui')['NAffix']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NButton: typeof import('naive-ui')['NButton']
+    NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDivider: typeof import('naive-ui')['NDivider']
     NDropdown: typeof import('naive-ui')['NDropdown']
@@ -28,6 +33,7 @@ declare module '@vue/runtime-core' {
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
     NMenu: typeof import('naive-ui')['NMenu']
+    NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NNumberAnimation: typeof import('naive-ui')['NNumberAnimation']
     NPopover: typeof import('naive-ui')['NPopover']
     NResult: typeof import('naive-ui')['NResult']
@@ -37,9 +43,6 @@ declare module '@vue/runtime-core' {
     NStatistic: typeof import('naive-ui')['NStatistic']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SideBar: typeof import('./src/components/SideBar.vue')['default']
-    TheCounter: typeof import('./src/components/TheCounter.vue')['default']
-    TheFooter: typeof import('./src/components/TheFooter.vue')['default']
-    TheInput: typeof import('./src/components/TheInput.vue')['default']
+    SideBar: typeof import('./src/components/Page/SideBar.vue')['default']
   }
 }
