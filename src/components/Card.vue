@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { getImageByIdAndVersion } from '~/api/api'
-
 const props = defineProps({
+  cardType: {
+    type: String, // 'render' | 'bgs' | 'render-merc-lvl30'
+    default: () => 'render',
+  },
   cardId: {
     type: String,
     default: () => '',
@@ -12,19 +14,7 @@ const props = defineProps({
   },
 })
 
-const imageUrl = ref('')
-const init = async () => {
-  const params = {
-    id: props.cardId,
-  }
-  if (props.cardId !== '') {
-    await getImageByIdAndVersion(params).then((res) => {
-      imageUrl.value = res.data
-    })
-  }
-}
-
-// 动态卡牌
+const imageUrl = computed(() => `https://images.fbigames.com/hs/${props.cardType}/${props.cardId}.png`)
 const card = ref()
 const { elementX, elementY, elementHeight, elementWidth, isOutside } = useMouseInElement(card)
 
@@ -39,17 +29,11 @@ watch(() => isOutside.value, () => {
   if (isOutside.value && props.animation)
     card.value.style.cssText = 'transition: all 1000ms; transform: perspective(1000px) rotateX0deg) rotateY(0deg);'
 })
-
-watch(() => props.cardId, init)
-onMounted(() => {
-  init()
-})
 </script>
 
 <template>
   <div ref="card">
     <n-image
-      :class="{ 'hover:scale-110 hover:transition-all-350 transition-all-1000 cursor-pointer': props.animation }"
       :src="imageUrl"
       preview-disabled
     >
@@ -70,7 +54,3 @@ onMounted(() => {
     </n-image>
   </div>
 </template>
-
-<style>
-
-</style>
