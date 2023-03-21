@@ -1,10 +1,11 @@
+import { Race } from '~/types/types'
 import api from './instance'
 
-// 获取所有卡牌
+// Card APIs
 export const getAllCards = () => {
   return api.get('/card/all')
 }
-// 获取特定ID的卡牌
+
 export const getCardById = (params: { id: string }) => {
   return api.get('/card', { params })
 }
@@ -14,14 +15,30 @@ export const getCardsByFilter = (params: {
   race?: string
   boundrace?: string
   tavernlevel?: string
+  golden?: string
 }) => {
   return api.get('/card/filter', { params })
 }
 
-export const getImageByIdAndVersion = (params: { id: string }) => {
-  return api.get('image/card', { params })
+export const getCardImageById = (params: { id: string }) => {
+  return api.get('/image/card', { params })
 }
 
-export const getHeroes = () => {
-  return api.get('/heroes')
+// Hero APIs
+// export const getHeroById = (params: { id: string }) => {
+//   return api.get('/hero', { params })
+// }
+
+export const getHeroById = (params: { id: string }) => {
+  return api.get('/hero', { params })
+}
+
+export const getHeroesByFilter = (params: {
+  boundrace?: Race[]
+}) => {
+  return api.get('/hero/filter', { params })
+}
+
+export const getHeroImageById = (params: { id: string }) => {
+  return api.get('/image/hero', { params })
 }
