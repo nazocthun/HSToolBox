@@ -15,12 +15,25 @@ declare interface TavernBuddy { // 卡牌
 }
 
 declare interface Hero {
-  hero_id: string,
-  hero_name: string,
-  armor_level: number,
-  race_bound: string,
+  id: string,
+  name: string,
+  health: number,
+  armor: number,
+  raceBound: Race,
+  heroSkillId: string,
+  hero_skins: HeroSkin[],
+  associatedCardId: string,
   skill: TavernHeroSkill,
-  buddy: TavernBuddy,
+  has_buddy: boolean,
+  buddies_id: string,
+  golden_buddy_id: string,
+}
+
+declare type Race = 'BEAST' | 'MECH' | 'QUILBOAR' | 'DEMON' | 'DRAGON' | 'MERLOC' | 'NAGA' | 'PIRATE' | 'UNDEAD' | 'ALL';
+
+declare interface HeroSkin {
+  skin_id: string,
+  skin_name: string,
 }
 
 declare interface TavernHeroSkill {
